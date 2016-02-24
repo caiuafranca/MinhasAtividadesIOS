@@ -8,8 +8,65 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+var atividades = [String]()
+var tempos = [Int]()
 
+class FirstViewController: UIViewController, UITableViewDelegate {
+
+    @IBOutlet weak var table: UITableView!
+    var timer = NSTimer()
+    var segundos:Int = 0
+    var minutos:Int = 0
+    var horas:Int = 0
+    var tempo = ""
+    
+    @IBOutlet weak var LabelTempo: UILabel!
+
+    @IBAction func iniciaAtividade(sender: AnyObject) {
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("result"), userInfo: nil, repeats: true)
+    }
+    func result(){
+        segundos++
+        if(segundos == 60){
+            minutos++
+            segundos = 0
+        }
+        if(minutos == 60){
+            horas++
+            minutos = 0
+        }
+        
+        tempo = "\(horas):\(minutos):\(segundos)"
+        
+        LabelTempo.text = tempo
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        return atividades.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+        
+        let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
+        cell.textLabel?.text = atividades[indexPath.row] + " - " + String(tempos[indexPath.row]) + " min"
+        
+        return cell        
+    }
+    
+    @IBAction func pausarAtividade(sender: AnyObject) {
+        timer.invalidate()
+    }
+    
+    @IBAction func pararAtividade(sender: AnyObject) {
+        timer.invalidate()
+        segundos = 0
+        minutos = 0
+        horas = 0
+        tempo = "\(horas):\(minutos):\(segundos)"
+        
+        LabelTempo.text = tempo
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -19,7 +76,18 @@ class FirstViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath){
+        
+        if editingStyle == UITableViewCellEditingStyle.Delete{
+            atividades.removeAtIndex(indexPath.row)
+            tempos.removeAtIndex(indexPath.row)
+                        
+            table.reloadData()
+        }
+        
+        
+    }
 
 }
 
