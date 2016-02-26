@@ -17,9 +17,11 @@ class SecondViewController: UIViewController {
     @IBAction func cadastrarAtividade(sender: AnyObject) {
     
         if((textTempo.text == "") || (textAtividade.text == "")){
-            print("É Necessario inputar um Valor")
+            let alertaCadastro = UIAlertController(title: "Alerta", message: "Existem Campos em Branco", preferredStyle: UIAlertControllerStyle.Alert)
+            alertaCadastro.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alertaCadastro, animated: true, completion: nil)
         }else{
-            atividades.append(textAtividade.text!)
+            atividades.append(textAtividade.text!.uppercaseString)
             tempos.append(Int(textTempo.text!)!)
             textAtividade.text = ""
             textTempo.text = ""
@@ -35,6 +37,19 @@ class SecondViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if( textAtividade.resignFirstResponder() || textTempo.resignFirstResponder()){
+            return true
+        }else{
+            return false
+        }
+    }
+
 
 
 }

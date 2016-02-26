@@ -23,7 +23,13 @@ class FirstViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var LabelTempo: UILabel!
 
     @IBAction func iniciaAtividade(sender: AnyObject) {
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("result"), userInfo: nil, repeats: true)
+        if(atividades.count != 0){
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("result"), userInfo: nil, repeats: true)
+        } else {
+            let alerta = UIAlertController(title: "Alerta", message: "Não Existem Atividades Cadastradas", preferredStyle: UIAlertControllerStyle.Alert)
+            alerta.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alerta, animated: true, completion: nil)
+        }
     }
     func result(){
         segundos++
@@ -39,6 +45,7 @@ class FirstViewController: UIViewController, UITableViewDelegate {
         tempo = "\(horas):\(minutos):\(segundos)"
         
         LabelTempo.text = tempo
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
@@ -88,6 +95,6 @@ class FirstViewController: UIViewController, UITableViewDelegate {
         
         
     }
-
+    
 }
 
