@@ -1,6 +1,6 @@
 # MinhasAtividadesIOS
 Trabalho da disciplina de desenvolvimento para IOS
-<p>Alunos: Caiuá França
+<p>Alunos: Caiuá França <br/>
         Rodrigo Alexander Silva de Oliveira
   </p>      
 Funções do App        
